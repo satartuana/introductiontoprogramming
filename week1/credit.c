@@ -30,7 +30,7 @@
 
 int main(void)
 {
-    // TODO: Prompt user for a credit card number using get_long()
+    long number = get_long("Number: ");
     //       Hint: card numbers can exceed int range — use `long`
 
 
@@ -39,9 +39,12 @@ int main(void)
     // -----------------------------------------------------------------------
     int length = 0;
 
-    // TODO: Use a loop to count digits.
-    //       Hint: make a copy of the number, divide by 10 each iteration,
-    //       stop when the copy reaches 0.
+   long temp = number;
+while (temp > 0)
+{
+    length++;
+    temp /= 10;
+}
 
 
     // -----------------------------------------------------------------------
@@ -50,7 +53,26 @@ int main(void)
     int sum_doubled = 0;  // sum of doubled every-other digits
     int sum_rest    = 0;  // sum of the remaining digits
 
-    // TODO: Loop through each digit of the card number.
+    long temp2 = number;
+int pos = 1;
+
+while (temp2 > 0)
+{
+    int digit = temp2 % 10;
+
+    if (pos % 2 == 0)
+    {
+        int product = digit * 2;
+        sum_doubled += (product / 10) + (product % 10);
+    }
+    else
+    {
+        sum_rest += digit;
+    }
+
+    temp2 /= 10;
+    pos++;
+}
     //       Use modulo 10 to extract the last digit, then divide by 10.
     //       Use a counter (i) to track position: i=0 is the LAST digit,
     //       i=1 is second-to-last (this is the FIRST one to double), etc.
@@ -63,17 +85,42 @@ int main(void)
     // -----------------------------------------------------------------------
     // STEP 3: Check validity
     // -----------------------------------------------------------------------
-    // TODO: If (sum_doubled + sum_rest) % 10 != 0, print INVALID and return.
+   int total = sum_doubled + sum_rest;
+
+if (total % 10 != 0)
+{
+    printf("INVALID\n");
+    return 0;
+}
 
 
     // -----------------------------------------------------------------------
     // STEP 4: Identify card type
     // -----------------------------------------------------------------------
-    // TODO: Extract the first two digits of the card number.
+    long first2 = number;
+while (first2 >= 100)
+{
+    first2 /= 10;
+}
     //       Hint: keep dividing by 10 until only 2 digits remain.
+if (length == 15 && (first2 == 34 || first2 == 37))
+{
+    printf("AMEX\n");
+}
+else if (length == 16 && (first2 >= 51 && first2 <= 55))
+{
+    printf("MASTERCARD\n");
+}
+else if ((length == 13 || length == 16) && (first2 / 10 == 4))
+{
+    printf("VISA\n");
+}
+else
+{
+    printf("INVALID\n");
+}
 
-
-    // TODO: Use if/else if to check length + starting digits:
+    
     //
     //   AMEX:       length == 15 && (first2 == 34 || first2 == 37)
     //   MASTERCARD: length == 16 && first2 >= 51 && first2 <= 55
