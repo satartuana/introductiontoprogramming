@@ -37,25 +37,23 @@ int main(int argc, string argv[])
     // If argc != 2, OR if the key is not all digits, print the usage message
     // and return 1 (indicating an error).
     //
-    // TODO: Check that argc == 2
-    // TODO: Check that argv[1] contains only digit characters using only_digits()
-    // If either check fails:
-    //   printf("Usage: ./caesar key\n");
-    //   return 1;
+  if (argc != 2 || !only_digits(argv[1]))
+{
+    printf("Usage: ./caesar key\n");
+    return 1;
+}
 
 
     // ---------------------------------------------------------------------------
     // STEP 2: Convert the key from string to int
     // ---------------------------------------------------------------------------
-    // TODO: Use atoi() to convert argv[1] to an integer.
-    //   int key = atoi(argv[1]);
+   int key = atoi(argv[1]);
 
 
     // ---------------------------------------------------------------------------
     // STEP 3: Get the plaintext from the user
     // ---------------------------------------------------------------------------
-    // TODO: Use get_string() to prompt for plaintext.
-    //   string plaintext = get_string("plaintext:  ");
+   string plaintext = get_string("plaintext: ");
 
 
     // ---------------------------------------------------------------------------
@@ -70,22 +68,30 @@ int main(int argc, string argv[])
     //
     // The output should start with "ciphertext: " (with a trailing space):
     //   printf("ciphertext: ");
+printf("ciphertext: ");
 
+for (int i = 0; i < strlen(plaintext); i++)
+{
+    printf("%c", rotate(plaintext[i], key));
 }
 
-// ---------------------------------------------------------------------------
-// TODO: Implement only_digits
-// ---------------------------------------------------------------------------
-// Return true if every character in s is a digit (0-9), false otherwise.
-// Hint: use isdigit() from <ctype.h>
+printf("\n");
+}
+
+
 // ---------------------------------------------------------------------------
 bool only_digits(string s)
 {
-    // TODO: Loop through each character of s
-    // TODO: If any character is NOT a digit, return false
-    // TODO: If all characters are digits, return true
+for (int i = 0; i < strlen(s); i++)
+{
+    if (!isdigit(s[i]))
+    {
+        return false;
+    }
+}
 
-    return true; // placeholder — replace this
+return true;
+   
 }
 
 // ---------------------------------------------------------------------------
@@ -103,9 +109,16 @@ bool only_digits(string s)
 // ---------------------------------------------------------------------------
 char rotate(char c, int n)
 {
-    // TODO: If c is uppercase, rotate it and return the result
-    // TODO: If c is lowercase, rotate it and return the result
-    // TODO: If c is not a letter, return c unchanged
-
-    return c; // placeholder — replace this
+    if (isupper(c))
+{
+    return (c - 'A' + n) % 26 + 'A';
+}
+else if (islower(c))
+{
+    return (c - 'a' + n) % 26 + 'a';
+}
+else
+{
+    return c;
+}
 }
