@@ -38,15 +38,18 @@ int main(int argc, string argv[])
     //   printf("Usage: ./substitution key\n");
     //   return 1;
 
-    // TODO: Check argc == 2
-    // TODO: Check is_valid_key(argv[1])
+    if (argc != 2 || !is_valid_key(argv[1]))
+{
+    printf("Usage: ./substitution key\n");
+    return 1;
+}
 
 
     // ---------------------------------------------------------------------------
     // STEP 2: Get the plaintext from the user
     // ---------------------------------------------------------------------------
-    // TODO: Use get_string("plaintext:  ") and store in a variable
-
+    
+string plaintext = get_string("plaintext: ");
 
     // ---------------------------------------------------------------------------
     // STEP 3: Encrypt and print ciphertext
@@ -68,7 +71,29 @@ int main(int argc, string argv[])
 
     printf("ciphertext: ");
 
-    // TODO: loop and print each encrypted character
+   for (int i = 0; i < strlen(plaintext); i++)
+{
+    char c = plaintext[i];
+
+    if (isalpha(c))
+    {
+        int index = toupper(c) - 'A';
+        char sub = argv[1][index];
+
+        if (isupper(c))
+        {
+            printf("%c", toupper(sub));
+        }
+        else
+        {
+            printf("%c", tolower(sub));
+        }
+    }
+    else
+    {
+        printf("%c", c);
+    }
+}
 
     printf("\n");
     return 0;
@@ -101,8 +126,26 @@ bool is_valid_key(string key)
         return false;
     }
 
-    // TODO: Check all characters are alphabetic
-    // TODO: Check for duplicates using a seen[] array
+   
 
-    return true; // placeholder — replace this
+        bool seen[26] = {false};
+
+    for (int i = 0; i < 26; i++)
+    {
+        if (!isalpha(key[i]))
+        {
+            return false;
+        }
+
+        int index = tolower(key[i]) - 'a';
+
+        if (seen[index])
+        {
+            return false;
+        }
+
+        seen[index] = true;
+    }
+
+    return true;
 }
